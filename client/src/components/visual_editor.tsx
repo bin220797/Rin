@@ -200,7 +200,7 @@ export function VisualEditor({ content, setContent, placeholder = "Start writing
     // Convert headers
     markdown = markdown.replace(/^<h1>/gi, '# ').replace(/<\/h1>/gi, '\n');
     markdown = markdown.replace(/^<h2>/gi, '## ').replace(/<\/h2>/gi, '\n');
-    markdown = markdown.replace(/^<h3>/gi, '### ').replace(/</h3>/gi, '\n');
+    markdown = markdown.replace(/^<h3>/gi, '### ').replace(/<\/h3>/gi, '\n');
 
     setContent(markdown);
   };
