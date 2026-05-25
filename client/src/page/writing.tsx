@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import {useTranslation} from "react-i18next";
+import i18n from 'i18next';
+import _ from 'lodash';
 import Loading from 'react-loading';
 import {ShowAlertType, useAlert} from '../components/dialog';
 import {Checkbox, Input} from "../components/input";
@@ -264,7 +266,7 @@ export function WritingPage({ id }: { id?: number }) {
               <Input
                 id={id}
                 value={title}
-                setTitle={setTitle}
+                setValue={setTitle}
                 placeholder={t("title")}
                 variant="flat"
                 className="text-base"
@@ -273,21 +275,21 @@ export function WritingPage({ id }: { id?: number }) {
             <Input
               id={id}
               value={summary}
-              setSummary={setSummary}
+              setValue={setSummary}
               placeholder={t("summary")}
               variant="flat"
             />
             <Input
               id={id}
               value={alias}
-              setAlias={setAlias}
+              setValue={setAlias}
               placeholder={t("alias")}
               variant="flat"
             />
             <Input
               id={id}
               value={tags}
-              setTags={setTags}
+              setValue={setTags}
               placeholder={t("tags")}
               variant="flat"
               className="lg:col-span-2"
@@ -303,7 +305,7 @@ export function WritingPage({ id }: { id?: number }) {
               <Checkbox
                 id="draft"
                 value={draft}
-                setDraft={setDraft}
+                setValue={setDraft}
                 placeholder={t('draft')}
               />
             </FlatMetaRow>
@@ -315,7 +317,7 @@ export function WritingPage({ id }: { id?: number }) {
               <Checkbox
                 id="listed"
                 value={listed}
-                setListed={setListed}
+                setValue={setListed}
                 placeholder={t('listed')}
               />
             </FlatMetaRow>

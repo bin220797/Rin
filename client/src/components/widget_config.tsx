@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatPanel, FlatInset } from "@rin/ui";
 import { Input } from "../components/input";

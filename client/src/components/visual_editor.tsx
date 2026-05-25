@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import Loading from 'react-loading';
 import { FlatInset, FlatTabButton } from "@rin/ui";
 import { useAlert } from "./dialog";
-import { useColorMode } from "../utils/darkModeUtils";
-import { buildMarkdownImage, uploadImageFile } from "../utils/image-upload";
+import { uploadImageFile } from "../utils/image-upload";
+import { Markdown } from "./markdown";
 
 interface VisualEditorProps {
   content: string;

@@ -1,16 +1,6 @@
 import React from 'react';
 import { useSiteConfig } from '../hooks/useSiteConfig';
 
-interface ContactWidget {
-  id: string;
-  type: 'wechat' | 'qq' | 'email' | 'link' | 'custom';
-  title: string;
-  value: string;
-  icon: string;
-  url?: string;
-  color?: string;
-}
-
 interface SidebarWidgetsProps {
   position: 'left' | 'right';
   widgets?: ContactWidget[];
