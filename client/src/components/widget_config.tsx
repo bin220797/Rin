@@ -133,6 +133,7 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
             {widgets.filter(w => !w.id.startsWith('custom')).map((widget) => (
               <div key={widget.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <Checkbox
+                  id={widget.id}
                   value={widget.enabled}
                   setValue={(v) => updateWidget(widget.id, 'enabled', v)}
                   placeholder={t('show')}
@@ -171,6 +172,7 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
             {widgets.filter(w => w.id.startsWith('custom')).map((widget) => (
               <div key={widget.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <Checkbox
+                  id={widget.id}
                   value={widget.enabled}
                   setValue={(v) => updateWidget(widget.id, 'enabled', v)}
                   placeholder={t('show')}

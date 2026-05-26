@@ -1,5 +1,14 @@
 import React from 'react';
-import { useSiteConfig } from '../hooks/useSiteConfig';
+
+interface ContactWidget {
+  id: string;
+  type: 'wechat' | 'qq' | 'email' | 'link' | 'custom';
+  title: string;
+  value: string;
+  icon: string;
+  url?: string;
+  color?: string;
+}
 
 interface SidebarWidgetsProps {
   position: 'left' | 'right';
@@ -8,8 +17,6 @@ interface SidebarWidgetsProps {
 }
 
 export function SidebarWidgets({ position, widgets = [], className = '' }: SidebarWidgetsProps) {
-  const siteConfig = useSiteConfig();
-
   // 默认 widget 数据，后续可以从配置中读取
   const defaultWidgets: ContactWidget[] = [
     {

@@ -4,7 +4,6 @@ import Loading from 'react-loading';
 import { FlatInset, FlatTabButton } from "@rin/ui";
 import { useAlert } from "./dialog";
 import { uploadImageFile } from "../utils/image-upload";
-import { Markdown } from "./markdown";
 
 interface VisualEditorProps {
   content: string;
@@ -224,7 +223,7 @@ export function VisualEditor({ content, setContent, placeholder = "Start writing
       const alt = file.name.split('.')[0];
 
       const markdown = `![${alt}](${url})`;
-      setContent(prev => prev + '\n' + markdown);
+      setContent((prev) => prev + '\n' + markdown);
     } catch (error) {
       console.error(error);
       showAlert(error instanceof Error ? error.message : t("upload.failed"));
