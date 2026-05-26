@@ -161,7 +161,7 @@ function AppRoute({
 
         return layoutDefinition.renderRouteShell({
           header: <Header>{headerComponent}</Header>,
-          content: <Padding className={paddingClassName}>{resolvedContent}</Padding>,
+          content: <Padding className={paddingClassName} showWidgets={true}>{resolvedContent}</Padding>,
           footer: <Footer />,
           paddingClassName,
         });

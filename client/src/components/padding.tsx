@@ -24,9 +24,11 @@ interface RawWidgetsResponse {
 export function Padding({
   className = "mx-8",
   children,
+  showWidgets = false,
 }: {
   className?: string;
   children?: ReactNode;
+  showWidgets?: boolean;
 }) {
   const [location] = useLocation();
   const [widgetsConfig, setWidgetsConfig] = useState<SidebarWidgetsConfig | null>(null);
@@ -50,9 +52,9 @@ export function Padding({
   }, []);
 
   const isHomePage = location === "/";
-  const showWidgets = isHomePage && widgetsConfig && !loading;
+  const shouldShowWidgets = showWidgets && isHomePage && widgetsConfig && !loading;
 
-  if (showWidgets) {
+  if (shouldShowWidgets) {
     const leftWidgets = widgetsConfig.left_widgets?.map(w => ({
       id: w.id,
       type: w.type as any,
