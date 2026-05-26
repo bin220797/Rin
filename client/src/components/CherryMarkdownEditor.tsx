@@ -12,7 +12,7 @@ interface CherryMarkdownEditorProps {
 
 export function CherryMarkdownEditor({ content, setContent, height = '680px' }: CherryMarkdownEditorProps) {
   const { t } = useTranslation();
-  const cherryRef = useRef<Cherry | null>(null);
+  const cherryRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastContentRef = useRef(content);
 
@@ -27,10 +27,6 @@ export function CherryMarkdownEditor({ content, setContent, height = '680px' }: 
         theme: 'light',
         defaultModel: 'editOnly',
         height,
-        codeBlock: {
-          theme: 'github',
-          wrap: true,
-        },
         toolbars: {
           toolbar: ['bold', 'italic', 'strikethrough', '|', 'color', 'header', '|', 'list', 'orderedList', 'checkList', '|', 'link', 'image', 'code', 'codeBlock', 'quote', 'table', '|', 'undo', 'redo', '|', 'preview', 'fullScreen'],
           sidebar: [],
@@ -38,16 +34,14 @@ export function CherryMarkdownEditor({ content, setContent, height = '680px' }: 
           float: ['h1', 'h2', 'h3', '|', 'list', 'orderedList', 'checkList', '|', 'quote', 'table', 'codeBlock'],
         },
       },
-      fileUpload: {
-        async upload(file: File) {
-          try {
-            const result = await uploadImageFile(file);
-            return result.url;
-          } catch (error) {
-            console.error('Image upload failed:', error);
-            throw new Error(t('upload.failed'));
-          }
-        },
+      fileUpload: async (file: File) => {
+        try {
+          const result = await uploadImageFile(file);
+          return result.url;
+        } catch (error) {
+          console.error('Image upload failed:', error);
+          throw new Error(t('upload.failed'));
+        }
       },
       callback: {
         afterChange: (value: string) => {
@@ -57,7 +51,7 @@ export function CherryMarkdownEditor({ content, setContent, height = '680px' }: 
           }
         },
       },
-    });
+    } as any);
 
     cherryRef.current = cherry;
 
