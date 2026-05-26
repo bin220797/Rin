@@ -213,19 +213,19 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
             onClick={() => insertList(true)}
             tooltip="有序列表"
           />
-          <label className="cursor-pointer">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-            <ToolbarButton
-              icon="ri-upload-cloud-2"
-              tooltip={isUploading ? "上传中..." : "上传图片"}
-              disabled={isUploading}
-            />
-          </label>
+          <ToolbarButton
+            icon="ri-upload-cloud-2"
+            onClick={() => document.querySelector<HTMLInputElement>('input[name="upload-image"]')?.click()}
+            tooltip={isUploading ? "上传中..." : "上传图片"}
+            disabled={isUploading}
+          />
+          <input
+            name="upload-image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
         </div>
 
         {/* 编辑器切换 */}
