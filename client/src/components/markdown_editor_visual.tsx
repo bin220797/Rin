@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FlatTabButton } from "@rin/ui";
 import { uploadImageFile } from "../utils/image-upload";
 
@@ -30,6 +30,7 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
   const [editorType, setEditorType] = useState<'visual' | 'markdown' | 'split'>('visual');
   const [isUploading, setIsUploading] = useState(false);
   const [markdownContent, setMarkdownContent] = useState(content);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 同步内容
   useEffect(() => {
@@ -37,9 +38,9 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
   }, [content]);
 
   const insertText = (before: string, after: string = '') => {
-    const textarea = document.querySelector('textarea[name="markdown"]') as HTMLTextAreaElement | null;
-    if (!textarea) return;
+    if (!textareaRef.current) return;
 
+    const textarea = textareaRef.current;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const selectedText = markdownContent.substring(start, end);
@@ -56,7 +57,8 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
     // 恢复焦点和选择
     setTimeout(() => {
       textarea.focus();
-      textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
+      const newCursor = start + before.length + selectedText.length;
+      textarea.setSelectionRange(newCursor, newCursor);
     }, 0);
   };
 
@@ -102,8 +104,8 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
 
     setIsUploading(true);
     try {
-      const url = await uploadImageFile(file);
-      const markdown = `![${file.name}](${url})`;
+      const result = await uploadImageFile(file);
+      const markdown = `![${file.name}](${result.url})`;
 
       const newContent = markdownContent + '\n' + markdown;
       setMarkdownContent(newContent);
@@ -128,8 +130,8 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
         if (file) {
           setIsUploading(true);
           try {
-            const url = await uploadImageFile(file);
-            const markdown = `![${file.name}](${url})`;
+            const result = await uploadImageFile(file);
+            const markdown = `![${file.name}](${result.url})`;
 
             const newContent = markdownContent + '\n' + markdown;
             setMarkdownContent(newContent);
@@ -143,6 +145,12 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
         break;
       }
     }
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newContent = e.target.value;
+    setMarkdownContent(newContent);
+    setContent(newContent);
   };
 
   return (
@@ -258,32 +266,24 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
       <div className="flex-1 flex overflow-hidden">
         {editorType === 'visual' && (
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="prose prose-gray dark:prose-invert max-w-none">
-              <textarea
-                name="markdown"
-                value={markdownContent}
-                onChange={(e) => {
-                  const newContent = e.target.value;
-                  setMarkdownContent(newContent);
-                  setContent(newContent);
-                }}
-                onPaste={handlePaste}
-                className="w-full h-full border-none outline-none resize-none font-mono text-sm"
-                placeholder="开始编写你的博客内容..."
-              />
-            </div>
+            <textarea
+              ref={textareaRef}
+              name="markdown"
+              value={markdownContent}
+              onChange={handleTextareaChange}
+              onPaste={handlePaste}
+              className="w-full h-full border-none outline-none resize-none font-mono text-sm"
+              placeholder="开始编写你的博客内容..."
+            />
           </div>
         )}
 
         {editorType === 'markdown' && (
           <div className="flex-1 overflow-y-auto">
             <textarea
+              ref={textareaRef}
               value={markdownContent}
-              onChange={(e) => {
-                const newContent = e.target.value;
-                setMarkdownContent(newContent);
-                setContent(newContent);
-              }}
+              onChange={handleTextareaChange}
               onPaste={handlePaste}
               className="w-full h-full p-4 border-none outline-none resize-none font-mono text-sm"
               style={{ fontFamily: 'monospace' }}
@@ -296,12 +296,9 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
           <div className="flex h-full">
             <div className="flex-1 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
               <textarea
+                ref={textareaRef}
                 value={markdownContent}
-                onChange={(e) => {
-                  const newContent = e.target.value;
-                  setMarkdownContent(newContent);
-                  setContent(newContent);
-                }}
+                onChange={handleTextareaChange}
                 onPaste={handlePaste}
                 className="w-full h-full p-4 border-none outline-none resize-none font-mono text-sm"
                 style={{ fontFamily: 'monospace' }}
@@ -309,35 +306,8 @@ export function MarkdownEditorVisual({ content, setContent, height = "680px" }: 
               />
             </div>
             <div className="flex-1 overflow-y-auto">
-              <div className="prose prose-gray dark:prose-invert max-w-none p-4">
-                <textarea
-                  value={markdownContent}
-                  onChange={(e) => {
-                    const newContent = e.target.value;
-                    setMarkdownContent(newContent);
-                    setContent(newContent);
-                  }}
-                  className="w-full h-full border-none outline-none resize-none font-mono text-sm opacity-0 absolute"
-                />
-                <div className="markdown-content">
-                  {markdownContent.split('\n').map((line, index) => {
-                    if (line.startsWith('# ')) {
-                      return <h1 key={index} className="text-2xl font-bold mb-4">{line.substring(2)}</h1>;
-                    } else if (line.startsWith('## ')) {
-                      return <h2 key={index} className="text-xl font-semibold mb-3">{line.substring(3)}</h2>;
-                    } else if (line.startsWith('### ')) {
-                      return <h3 key={index} className="text-lg font-medium mb-2">{line.substring(4)}</h3>;
-                    } else if (line.startsWith('- ') || line.startsWith('* ')) {
-                      return <li key={index} className="ml-4 mb-1">• {line.substring(2)}</li>;
-                    } else if (line.startsWith('> ')) {
-                      return <blockquote key={index} className="border-l-4 border-gray-300 pl-4 mb-2 italic">{line.substring(2)}</blockquote>;
-                    } else if (line.trim() === '') {
-                      return <br key={index} />;
-                    } else {
-                      return <p key={index} className="mb-2">{line}</p>;
-                    }
-                  })}
-                </div>
+              <div className="prose prose-gray dark:prose-invert max-w-none p-4 whitespace-pre-wrap">
+                {markdownContent}
               </div>
             </div>
           </div>

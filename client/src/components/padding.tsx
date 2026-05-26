@@ -13,8 +13,12 @@ interface WidgetConfig {
 }
 
 interface SidebarWidgetsConfig {
-  left_widgets: WidgetConfig[];
-  right_widgets: WidgetConfig[];
+  left_widgets?: WidgetConfig[];
+  right_widgets?: WidgetConfig[];
+}
+
+interface RawWidgetsResponse {
+  sidebar_widgets?: SidebarWidgetsConfig;
 }
 
 export function Padding({
@@ -33,7 +37,7 @@ export function Padding({
       try {
         const response = await fetch("/sidebar_widgets.json");
         if (response.ok) {
-          const data = await response.json();
+          const data: RawWidgetsResponse = await response.json();
           setWidgetsConfig(data.sidebar_widgets || null);
         }
       } catch (error) {
@@ -49,36 +53,36 @@ export function Padding({
   const showWidgets = isHomePage && widgetsConfig && !loading;
 
   if (showWidgets) {
+    const leftWidgets = widgetsConfig.left_widgets?.map(w => ({
+      id: w.id,
+      type: w.type as any,
+      title: w.title,
+      value: w.content,
+      icon: w.icon,
+      url: w.link,
+      color: w.color,
+    })) || [];
+    
+    const rightWidgets = widgetsConfig.right_widgets?.map(w => ({
+      id: w.id,
+      type: w.type as any,
+      title: w.title,
+      value: w.content,
+      icon: w.icon,
+      url: w.link,
+      color: w.color,
+    })) || [];
+    
     return (
       <div className="flex justify-center gap-4">
         <div className="hidden lg:block w-64 flex-shrink-0">
-          <SidebarWidgets
-            widgets={widgetsConfig.left_widgets.map(w => ({
-              id: w.id,
-              type: w.type as any,
-              title: w.title,
-              value: w.content,
-              icon: w.icon,
-              url: w.link,
-              color: w.color,
-            }))}
-          />
+          {leftWidgets.length > 0 && <SidebarWidgets widgets={leftWidgets} />}
         </div>
         <div className={`${className} sm:mx-8 md:mx-12 lg:mx-16 xl:mx-24 2xl:mx-32 duration-300`}>
           {children}
         </div>
         <div className="hidden lg:block w-64 flex-shrink-0">
-          <SidebarWidgets
-            widgets={widgetsConfig.right_widgets.map(w => ({
-              id: w.id,
-              type: w.type as any,
-              title: w.title,
-              value: w.content,
-              icon: w.icon,
-              url: w.link,
-              color: w.color,
-            }))}
-          />
+          {rightWidgets.length > 0 && <SidebarWidgets widgets={rightWidgets} />}
         </div>
       </div>
     );
