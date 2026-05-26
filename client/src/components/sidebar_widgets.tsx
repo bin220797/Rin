@@ -14,7 +14,7 @@ interface SidebarWidgetsProps {
   className?: string;
 }
 
-export function SidebarWidgets({ position, widgets = [], className = '' }: SidebarWidgetsProps) {
+export function SidebarWidgets({ widgets = [], className = '' }: SidebarWidgetsProps) {
 // 默认 widget 数据，后续可以从配置中读取
   const defaultWidgets: ContactWidget[] = [
     {

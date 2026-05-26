@@ -398,7 +398,7 @@ export function WritingPage({ id }: { id?: number }) {
         {/* 左侧边栏 */}
         {showSidebar && (
           <div className="lg:w-64 space-y-4">
-            <SidebarWidgets position="left" widgets={widgets} />
+            <SidebarWidgets widgets={widgets} />
           </div>
         )}
 
@@ -418,7 +418,7 @@ export function WritingPage({ id }: { id?: number }) {
         {/* 右侧边栏 */}
         {showSidebar && (
           <div className="lg:w-64 space-y-4">
-            <SidebarWidgets position="right" widgets={widgets} />
+            <SidebarWidgets widgets={widgets} />
           </div>
         )}
       </div>
