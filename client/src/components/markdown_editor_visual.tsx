@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import Loading from 'react-loading';
-import { FlatInset, FlatTabButton } from "@rin/ui";
-import { useAlert } from "./dialog";
+import React, { useState, useEffect } from "react";
+import { FlatTabButton } from "@rin/ui";
 import { uploadImageFile } from "../utils/image-upload";
 
 interface MarkdownEditorProps {
@@ -15,20 +12,21 @@ interface ToolbarButtonProps {
   icon: string;
   onClick: () => void;
   tooltip: string;
+  disabled?: boolean;
 }
 
-const ToolbarButton: React.FC<ToolbarButtonProps> = ({ icon, onClick, tooltip }) => (
+const ToolbarButton: React.FC<ToolbarButtonProps> = ({ icon, onClick, tooltip, disabled }) => (
   <button
     onClick={onClick}
-    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+    disabled={disabled}
+    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     title={tooltip}
   >
     <i className={icon} />
   </button>
 );
 
-export function MarkdownEditor({ content, setContent, height = "680px" }: MarkdownEditorProps) {
-  const { t } = useTranslation();
+export function MarkdownEditorVisual({ content, setContent, height = "680px" }: MarkdownEditorProps) {
   const [editorType, setEditorType] = useState<'visual' | 'markdown' | 'split'>('visual');
   const [isUploading, setIsUploading] = useState(false);
   const [markdownContent, setMarkdownContent] = useState(content);
@@ -39,7 +37,7 @@ export function MarkdownEditor({ content, setContent, height = "680px" }: Markdo
   }, [content]);
 
   const insertText = (before: string, after: string = '') => {
-    const textarea = document.querySelector('textarea[name="markdown"]');
+    const textarea = document.querySelector('textarea[name="markdown"]') as HTMLTextAreaElement | null;
     if (!textarea) return;
 
     const start = textarea.selectionStart;
