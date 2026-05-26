@@ -1,21 +1,22 @@
-// interface ContactWidget {
-//   id: string;
-//   type: 'wechat' | 'qq' | 'email' | 'link' | 'custom';
-//   title: string;
-//   value: string;
-//   icon: string;
-//   url?: string;
-//   color?: string;
-// }
+interface ContactWidget {
+  id: string;
+  type: 'wechat' | 'qq' | 'email' | 'link' | 'custom';
+  title: string;
+  value: string;
+  icon: string;
+  url?: string;
+  color?: string;
+}
 
 interface SidebarWidgetsProps {
-  widgets?: any[];
+  position?: 'left' | 'right';
+  widgets?: ContactWidget[];
   className?: string;
 }
 
-export function SidebarWidgets({ widgets = [], className = '' }: SidebarWidgetsProps) {
+export function SidebarWidgets({ position, widgets = [], className = '' }: SidebarWidgetsProps) {
 // 默认 widget 数据，后续可以从配置中读取
-  const defaultWidgets: any[] = [
+  const defaultWidgets: ContactWidget[] = [
     {
       id: 'wechat',
       type: 'wechat',
@@ -62,7 +63,7 @@ export function SidebarWidgets({ widgets = [], className = '' }: SidebarWidgetsP
 
   const displayWidgets = widgets.length > 0 ? widgets : defaultWidgets;
 
-  const renderWidget = (widget: any) => {
+  const renderWidget = (widget: ContactWidget) => {
     const content = (
       <div className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow">
         <div

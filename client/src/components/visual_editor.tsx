@@ -8,7 +8,6 @@ import { uploadImageFile } from "../utils/image-upload";
 interface VisualEditorProps {
   content: string;
   setContent: (content: string) => void;
-  placeholder?: string;
   height?: string;
 }
 
@@ -220,7 +219,7 @@ export function VisualEditor({ content, setContent, height = "680px" }: VisualEd
       const alt = file.name.split('.')[0];
 
       const markdown = `![${alt}](${url})`;
-      setContent((prev: string) => (prev + '\n' + markdown));
+      setContent(content + '\n' + markdown);
     } catch (error) {
       console.error(error);
       showAlert(error instanceof Error ? error.message : t("upload.failed"));
