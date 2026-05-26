@@ -292,37 +292,43 @@ export function WritingPage({ id }: { id?: number }) {
             />
           </div>
 
-          <div className="mt-5 grid gap-2 sm:gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(18rem,2fr)]">
-            <FlatMetaRow
-              className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
-              onClick={() => setDraft(!draft)}
-            >
-              <p>{t('visible.self_only')}</p>
-              <Checkbox
-                id="draft"
-                value={draft}
-                setValue={setDraft}
-                placeholder={t('draft')}
-              />
-            </FlatMetaRow>
-            <FlatMetaRow
-              className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
-              onClick={() => setListed(!listed)}
-            >
-              <p>{t('listed')}</p>
-              <Checkbox
-                id="listed"
-                value={listed}
-                setValue={setListed}
-                placeholder={t('listed')}
-              />
-            </FlatMetaRow>
-            <FlatMetaRow className="gap-3 rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3 xl:col-span-1">
-              <p className="mr-2 whitespace-nowrap">
-                {t('created_at')}
-              </p>
-              <DateTimeInput value={createdAt} onChange={setCreatedAt} className="w-full max-w-[16rem]" />
-            </FlatMetaRow>
+          <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
+            <div className="flex-1 min-w-[140px]">
+              <FlatMetaRow
+                className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
+                onClick={() => setDraft(!draft)}
+              >
+                <p>{t('visible.self_only')}</p>
+                <Checkbox
+                  id="draft"
+                  value={draft}
+                  setValue={setDraft}
+                  placeholder={t('draft')}
+                />
+              </FlatMetaRow>
+            </div>
+            <div className="flex-1 min-w-[140px]">
+              <FlatMetaRow
+                className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
+                onClick={() => setListed(!listed)}
+              >
+                <p>{t('listed')}</p>
+                <Checkbox
+                  id="listed"
+                  value={listed}
+                  setValue={setListed}
+                  placeholder={t('listed')}
+                />
+              </FlatMetaRow>
+            </div>
+            <div className="flex-1 min-w-[200px]">
+              <FlatMetaRow className="gap-3 rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3">
+                <p className="mr-2 whitespace-nowrap flex-shrink-0">
+                  {t('created_at')}
+                </p>
+                <DateTimeInput value={createdAt} onChange={setCreatedAt} className="flex-shrink-0" />
+              </FlatMetaRow>
+            </div>
           </div>
         </FlatPanel>
     )

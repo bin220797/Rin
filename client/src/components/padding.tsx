@@ -74,15 +74,20 @@ export function Padding({
     })) || [];
     
     return (
-      <div className="flex justify-center gap-4">
-        <div className="hidden lg:block w-64 flex-shrink-0">
+      <div className="relative">
+        {/* 左侧固定挂件 */}
+        <div className="hidden lg:block fixed left-4 top-1/2 -translate-y-1/2 z-40 w-64">
           {leftWidgets.length > 0 && <SidebarWidgets widgets={leftWidgets} />}
         </div>
-        <div className={`${className} sm:mx-8 md:mx-12 lg:mx-16 xl:mx-24 2xl:mx-32 duration-300`}>
-          {children}
-        </div>
-        <div className="hidden lg:block w-64 flex-shrink-0">
+        
+        {/* 右侧固定挂件 */}
+        <div className="hidden lg:block fixed right-4 top-1/2 -translate-y-1/2 z-40 w-64">
           {rightWidgets.length > 0 && <SidebarWidgets widgets={rightWidgets} />}
+        </div>
+        
+        {/* 主内容区域 */}
+        <div className={`${className} sm:mx-8 md:mx-12 lg:mx-24 xl:mx-32 2xl:mx-40 duration-300`}>
+          {children}
         </div>
       </div>
     );
