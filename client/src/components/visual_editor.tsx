@@ -220,7 +220,7 @@ export function VisualEditor({ content, setContent, height = "680px" }: VisualEd
       const alt = file.name.split('.')[0];
 
       const markdown = `![${alt}](${url})`;
-      setContent((prev) => prev + '\n' + markdown);
+      setContent((prev: string) => (prev + '\n' + markdown));
     } catch (error) {
       console.error(error);
       showAlert(error instanceof Error ? error.message : t("upload.failed"));
