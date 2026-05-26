@@ -23,9 +23,8 @@ interface MarkdownContent {
   language?: string;
 }
 
-export function VisualEditor({ content, setContent, placeholder = "Start writing your content...", height = "680px" }: VisualEditorProps) {
+export function VisualEditor({ content, setContent, height = "680px" }: VisualEditorProps) {
   const { t } = useTranslation();
-  const colorMode = useColorMode();
   const editorRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState<'edit' | 'preview' | 'comparison'>('edit');
   const [uploading, setUploading] = useState(false);
@@ -38,7 +37,6 @@ export function VisualEditor({ content, setContent, placeholder = "Start writing
       const lines = md.split('\n');
       const result: MarkdownContent[] = [];
       let currentBlock: MarkdownContent | null = null;
-      let listItems: string[] = [];
 
       for (const line of lines) {
         const trimmed = line.trim();
@@ -190,7 +188,6 @@ export function VisualEditor({ content, setContent, placeholder = "Start writing
   };
 
   const handleEditorInput = (e: React.FormEvent<HTMLDivElement>) => {
-    const html = e.currentTarget.innerHTML;
     const plainText = e.currentTarget.innerText || '';
 
     // Simple conversion from HTML-like back to Markdown (simplified)
