@@ -1,0 +1,62 @@
+{
+  "sidebar_widgets": {
+    "left_widgets": [
+      {
+        "id": "wechat",
+        "type": "contact",
+        "title": "微信",
+        "content": "your_wechat_id",
+        "icon": "ri-wechat-fill",
+        "color": "#07c160",
+        "link": null
+      },
+      {
+        "id": "qq",
+        "type": "contact",
+        "title": "QQ",
+        "content": "123456789",
+        "icon": "ri-qq-fill",
+        "color": "#12b7f5",
+        "link": null
+      },
+      {
+        "id": "email",
+        "type": "contact",
+        "title": "邮箱",
+        "content": "hello@example.com",
+        "icon": "ri-mail-fill",
+        "color": "#ff6b6b",
+        "link": null
+      }
+    ],
+    "right_widgets": [
+      {
+        "id": "github",
+        "type": "link",
+        "title": "GitHub",
+        "content": "github.com/username",
+        "icon": "ri-github-fill",
+        "color": "#24292e",
+        "link": "https://github.com/username"
+      },
+      {
+        "id": "twitter",
+        "type": "link",
+        "title": "Twitter",
+        "content": "@username",
+        "icon": "ri-twitter-fill",
+        "color": "#1da1f2",
+        "link": "https://twitter.com/username"
+      },
+      {
+        "id": "blog",
+        "type": "link",
+        "title": "个人博客",
+        "content": "blog.example.com",
+        "icon": "ri-blog-fill",
+        "color": "#667eea",
+        "link": "https://blog.example.com"
+      }
+    ]
+  }
+}

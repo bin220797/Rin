@@ -13,9 +13,7 @@ import {useSiteConfig} from "../hooks/useSiteConfig";
 import {siteName} from "../utils/constants";
 import mermaid from 'mermaid';
 import { MarkdownEditor } from '../components/markdown_editor';
-import { VisualEditor } from '../components/visual_editor';
-import { SidebarWidgets } from '../components/sidebar_widgets';
-import { WidgetConfig } from '../components/widget_config';
+import { MarkdownEditorVisual } from '../components/markdown_editor_visual';
 
 async function publish({
   title,
@@ -133,9 +131,7 @@ export function WritingPage({ id }: { id?: number }) {
   const [content, setContent] = cache.useCache("content", "");
   const [createdAt, setCreatedAt] = useState<Date | undefined>(new Date());
   const [publishing, setPublishing] = useState(false);
-  const [editorType, setEditorType] = useState<'markdown' | 'visual'>('markdown');
-  const [showSidebar, setShowSidebar] = useState(true);
-  const [widgets, setWidgets] = useState<any[]>([]);
+  const [editorType, setEditorType] = useState<'visual' | 'markdown'>('visual');
   const { showAlert, AlertUI } = useAlert();
 
   function publishButton() {
@@ -328,58 +324,6 @@ export function WritingPage({ id }: { id?: number }) {
               <DateTimeInput value={createdAt} onChange={setCreatedAt} className="w-full max-w-[16rem]" />
             </FlatMetaRow>
           </div>
-
-          {/* 编辑器配置区域 */}
-          <div className="mt-4 border-t border-black/5 pt-4 dark:border-white/5 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme/70 mb-2">{t('editor_type')}</p>
-                <div className="flex gap-2">
-                  <FlatTabButton
-                    active={editorType === 'markdown'}
-                    onClick={() => setEditorType('markdown')}
-                    className="flex-1"
-                  >
-                    {t('markdown_editor')}
-                  </FlatTabButton>
-                  <FlatTabButton
-                    active={editorType === 'visual'}
-                    onClick={() => setEditorType('visual')}
-                    className="flex-1"
-                  >
-                    {t('visual_editor')}
-                  </FlatTabButton>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme/70 mb-2">{t('sidebar_settings')}</p>
-                <div className="flex gap-2">
-                  <FlatTabButton
-                    active={showSidebar}
-                    onClick={() => setShowSidebar(!showSidebar)}
-                    className="flex-1"
-                  >
-                    {t('show_sidebar')}
-                  </FlatTabButton>
-                  <FlatTabButton
-                    active={false}
-                    onClick={() => {}}
-                    className="flex-1"
-                  >
-                    {t('config_widgets')}
-                  </FlatTabButton>
-                </div>
-              </div>
-            </div>
-
-            {/* 侧边栏配置 */}
-            {showSidebar && (
-              <div className="mt-4">
-                <WidgetConfig onWidgetsChange={setWidgets} />
-              </div>
-            )}
-          </div>
         </FlatPanel>
     )
   }
@@ -395,32 +339,30 @@ export function WritingPage({ id }: { id?: number }) {
         <meta property="og:url" content={document.URL} />
       </Helmet>
       <div className="mt-2 flex flex-col lg:flex-row gap-4 lg:gap-6 t-primary">
-        {/* 左侧边栏 */}
-        {showSidebar && (
-          <div className="lg:w-64 space-y-4">
-            <SidebarWidgets widgets={widgets} />
-          </div>
-        )}
-
-        {/* 主编辑区域 */}
-        <div className={`${showSidebar ? 'lg:flex-1' : 'lg:w-full'} flex flex-col gap-4`}>
-          {MetaInput({ className: "p-4 sm:p-5 md:p-6" })}
-
-          <FlatPanel className="overflow-hidden p-0">
-            {editorType === 'markdown' ? (
-              <MarkdownEditor content={content} setContent={setContent} height='680px' />
+        <MetaInput className="lg:w-72 lg:shrink-0 lg:sticky lg:top-6" />
+        <div className="min-w-0 flex-1">
+          <FlatPanel className="mb-4">
+            <div className="flex items-center gap-2 p-3 border-b border-black/10 dark:border-white/10">
+              <FlatTabButton
+                active={editorType === 'visual'}
+                onClick={() => setEditorType('visual')}
+              >
+                {t('visual')}
+              </FlatTabButton>
+              <FlatTabButton
+                active={editorType === 'markdown'}
+                onClick={() => setEditorType('markdown')}
+              >
+                Markdown
+              </FlatTabButton>
+            </div>
+            {editorType === 'visual' ? (
+              <MarkdownEditorVisual content={content} setContent={setContent} />
             ) : (
-              <VisualEditor content={content} setContent={setContent} height='680px' />
+              <MarkdownEditor content={content} setContent={setContent} />
             )}
           </FlatPanel>
         </div>
-
-        {/* 右侧边栏 */}
-        {showSidebar && (
-          <div className="lg:w-64 space-y-4">
-            <SidebarWidgets widgets={widgets} />
-          </div>
-        )}
       </div>
       <AlertUI />
     </>
