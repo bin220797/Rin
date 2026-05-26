@@ -13,7 +13,7 @@ import {useSiteConfig} from "../hooks/useSiteConfig";
 import {siteName} from "../utils/constants";
 import mermaid from 'mermaid';
 import { MarkdownEditor } from '../components/markdown_editor';
-import { MarkdownEditorVisual } from '../components/markdown_editor_visual';
+import { CherryMarkdownEditor } from '../components/CherryMarkdownEditor';
 
 async function publish({
   title,
@@ -357,7 +357,7 @@ export function WritingPage({ id }: { id?: number }) {
               </FlatTabButton>
             </div>
             {editorType === 'visual' ? (
-              <MarkdownEditorVisual content={content} setContent={setContent} />
+              <CherryMarkdownEditor content={content} setContent={setContent} />
             ) : (
               <MarkdownEditor content={content} setContent={setContent} />
             )}
