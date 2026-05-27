@@ -5,7 +5,7 @@
         "id": "wechat",
         "type": "contact",
         "title": "微信",
-        "content": "your_wechat_id",
+        "content": "bin220797",
         "icon": "ri-wechat-fill",
         "color": "#07c160",
         "link": null
@@ -14,7 +14,7 @@
         "id": "qq",
         "type": "contact",
         "title": "QQ",
-        "content": "123456789",
+        "content": "184199966",
         "icon": "ri-qq-fill",
         "color": "#12b7f5",
         "link": null
@@ -23,7 +23,7 @@
         "id": "email",
         "type": "contact",
         "title": "邮箱",
-        "content": "hello@example.com",
+        "content": "bin220797@163.com",
         "icon": "ri-mail-fill",
         "color": "#ff6b6b",
         "link": null
@@ -34,28 +34,28 @@
         "id": "github",
         "type": "link",
         "title": "GitHub",
-        "content": "github.com/username",
+        "content": "github.com/bin220797",
         "icon": "ri-github-fill",
         "color": "#24292e",
-        "link": "https://github.com/username"
+        "link": "https://github.com/bin220797"
       },
       {
         "id": "twitter",
         "type": "link",
         "title": "Twitter",
-        "content": "@username",
+        "content": "@bin220797",
         "icon": "ri-twitter-fill",
         "color": "#1da1f2",
-        "link": "https://twitter.com/username"
+        "link": "https://twitter.com/bin220797"
       },
       {
         "id": "blog",
         "type": "link",
         "title": "个人博客",
-        "content": "blog.example.com",
+        "content": "blog.bin220797.top",
         "icon": "ri-blog-fill",
         "color": "#667eea",
-        "link": "https://blog.example.com"
+        "link": "https://blog.bin220797.top"
       }
     ]
   }
