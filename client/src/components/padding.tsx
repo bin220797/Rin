@@ -78,17 +78,17 @@ export function Padding({
     return (
       <div className="relative">
         {/* 左侧固定挂件 */}
-        <div className="hidden lg:block fixed left-12 top-1/2 -translate-y-1/2 z-40 w-64">
+        <div className="hidden lg:block fixed left-20 top-1/2 -translate-y-1/2 z-40 w-64">
           {leftWidgets.length > 0 && <SidebarWidgets widgets={leftWidgets} />}
         </div>
         
         {/* 右侧固定挂件 */}
-        <div className="hidden lg:block fixed right-12 top-1/2 -translate-y-1/2 z-40 w-64">
+        <div className="hidden lg:block fixed right-20 top-1/2 -translate-y-1/2 z-40 w-64">
           {rightWidgets.length > 0 && <SidebarWidgets widgets={rightWidgets} />}
         </div>
         
         {/* 主内容区域 */}
-        <div className={`${className} sm:mx-8 md:mx-12 lg:mx-24 xl:mx-32 2xl:mx-40 duration-300`}>
+        <div className={`${className} sm:mx-8 md:mx-16 lg:mx-32 xl:mx-40 2xl:mx-48 duration-300`}>
           {children}
         </div>
       </div>

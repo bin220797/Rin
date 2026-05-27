@@ -35,7 +35,7 @@
         "type": "link",
         "title": "GitHub",
         "content": "github.com/bin220797",
-        "icon": "ri-github-fill",
+        "icon": "ri-github-line",
         "color": "#24292e",
         "link": "https://github.com/bin220797"
       },
@@ -53,7 +53,7 @@
         "type": "link",
         "title": "个人博客",
         "content": "blog.bin220797.top",
-        "icon": "ri-blog-fill",
+        "icon": "ri-file-text-fill",
         "color": "#667eea",
         "link": "https://blog.bin220797.top"
       }
