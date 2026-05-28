@@ -65,10 +65,10 @@ export function Checkbox({
       aria-checked={value}
       onClick={(event) => {
         event.stopPropagation();
-        if (typeof setValue === 'function') {
-          setValue(!value);
+        if ('length' in setValue) {
+          setValue((current: boolean) => !current);
         } else {
-          setValue((current) => !current);
+          setValue(!value);
         }
       }}
       className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-theme/20 ${

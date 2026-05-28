@@ -135,7 +135,7 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
                 <Checkbox
                   id={widget.id}
                   value={widget.enabled}
-                  setValue={(v) => updateWidget(widget.id, 'enabled', v)}
+                  setValue={(v: boolean) => updateWidget(widget.id, 'enabled', v)}
                   placeholder={t('show')}
                 />
                 <div className="flex items-center gap-2 flex-1">
@@ -145,7 +145,7 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
                 {widget.type !== 'link' && (
                   <Input
                     value={widget.value}
-                    setValue={(v) => updateWidget(widget.id, 'value', v)}
+                    setValue={(v: string) => updateWidget(widget.id, 'value', v)}
                     placeholder={`输入${widget.title}`}
                     className="flex-1 max-w-xs"
                   />
@@ -153,7 +153,7 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
                 {widget.type === 'link' && (
                   <Input
                     value={widget.value}
-                    setValue={(v) => updateWidget(widget.id, 'value', v)}
+                    setValue={(v: string) => updateWidget(widget.id, 'value', v)}
                     placeholder="输入链接"
                     className="flex-1 max-w-xs"
                   />
@@ -174,20 +174,20 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
                 <Checkbox
                   id={widget.id}
                   value={widget.enabled}
-                  setValue={(v) => updateWidget(widget.id, 'enabled', v)}
+                  setValue={(v: boolean) => updateWidget(widget.id, 'enabled', v)}
                   placeholder={t('show')}
                 />
                 <div className="flex items-center gap-2 flex-1">
                   <i className={`${widget.icon}`} style={{ color: widget.color }} />
                   <Input
                     value={widget.title}
-                    setValue={(v) => updateWidget(widget.id, 'title', v)}
+                    setValue={(v: string) => updateWidget(widget.id, 'title', v)}
                     placeholder="标题"
                     className="flex-1 max-w-xs"
                   />
                   <Input
                     value={widget.value}
-                    setValue={(v) => updateWidget(widget.id, 'value', v)}
+                    setValue={(v: string) => updateWidget(widget.id, 'value', v)}
                     placeholder="内容"
                     className="flex-1 max-w-xs"
                   />
@@ -207,13 +207,13 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
             <div className="flex gap-2">
               <Input
                 value={newCustomWidget.title}
-                setValue={(v) => setNewCustomWidget(prev => ({ ...prev, title: v }))}
+                setValue={(v: string) => setNewCustomWidget(prev => ({ ...prev, title: v }))}
                 placeholder="标题"
                 className="flex-1"
               />
               <Input
                 value={newCustomWidget.value}
-                setValue={(v) => setNewCustomWidget(prev => ({ ...prev, value: v }))}
+                setValue={(v: string) => setNewCustomWidget(prev => ({ ...prev, value: v }))}
                 placeholder="内容"
                 className="flex-1"
               />
