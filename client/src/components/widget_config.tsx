@@ -50,21 +50,21 @@ export function WidgetConfig({ onWidgetsChange }: WidgetConfigProps) {
       enabled: true
     },
     {
-      id: 'github',
+      id: 'kuaishou',
       type: 'link',
-      title: 'GitHub',
+      title: '快手',
       value: '',
-      icon: 'ri-github-fill',
-      color: '#24292e',
+      icon: 'ri-shield-star-fill',
+      color: '#ff4c4c',
       enabled: true
     },
     {
-      id: 'twitter',
+      id: 'douyin',
       type: 'link',
-      title: 'Twitter',
+      title: '抖音',
       value: '',
-      icon: 'ri-twitter-fill',
-      color: '#1da1f2',
+      icon: 'ri-tiktok-fill',
+      color: '#161823',
       enabled: true
     },
     {

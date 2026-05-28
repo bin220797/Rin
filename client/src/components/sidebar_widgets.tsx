@@ -42,22 +42,22 @@ export function SidebarWidgets({ widgets = [], className = '' }: SidebarWidgetsP
       color: '#ff6b6b'
     },
     {
-      id: 'github',
+      id: 'kuaishou',
       type: 'link',
-      title: 'GitHub',
-      value: 'github.com/username',
-      icon: 'ri-github-fill',
-      url: 'https://github.com/username',
-      color: '#24292e'
+      title: '快手',
+      value: '1839949535',
+      icon: 'ri-shield-star-fill',
+      url: 'https://www.kuaishou.com/profile/1839949535',
+      color: '#ff4c4c'
     },
     {
-      id: 'twitter',
+      id: 'douyin',
       type: 'link',
-      title: 'Twitter',
-      value: '@username',
-      icon: 'ri-twitter-fill',
-      url: 'https://twitter.com/username',
-      color: '#1da1f2'
+      title: '抖音',
+      value: '1744507967',
+      icon: 'ri-tiktok-fill',
+      url: 'https://www.douyin.com/user/1744507967',
+      color: '#161823'
     }
   ];
 
