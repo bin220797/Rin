@@ -211,7 +211,7 @@ function MetaInput({
             <Checkbox
               id="draft"
               value={draft}
-              setValue={setDraft}
+              setValue={(v) => setDraft(v)}
               placeholder={t('draft')}
             />
           </FlatMetaRow>
@@ -225,7 +225,7 @@ function MetaInput({
             <Checkbox
               id="listed"
               value={listed}
-              setValue={setListed}
+              setValue={(v) => setListed(v)}
               placeholder={t('listed')}
             />
           </FlatMetaRow>
