@@ -31,22 +31,22 @@
     ],
     "right_widgets": [
       {
-        "id": "github",
+        "id": "kuaishou",
         "type": "link",
-        "title": "GitHub",
-        "content": "github.com/bin220797",
-        "icon": "ri-code-box-fill",
-        "color": "#24292e",
-        "link": "https://github.com/bin220797"
+        "title": "快手",
+        "content": "1839949535",
+        "icon": "ri-shield-star-fill",
+        "color": "#ff4c4c",
+        "link": "https://www.kuaishou.com/profile/1839949535"
       },
       {
-        "id": "twitter",
+        "id": "douyin",
         "type": "link",
-        "title": "Twitter",
-        "content": "@bin220797",
-        "icon": "ri-twitter-fill",
-        "color": "#1da1f2",
-        "link": "https://twitter.com/bin220797"
+        "title": "抖音",
+        "content": "1744507967",
+        "icon": "ri-tiktok-fill",
+        "color": "#161823",
+        "link": "https://www.douyin.com/user/1744507967"
       },
       {
         "id": "blog",
