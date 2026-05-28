@@ -1,16 +1,16 @@
 import { useState, useCallback, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
 import _ from 'lodash';
 import Loading from 'react-loading';
-import {ShowAlertType, useAlert} from '../components/dialog';
-import {Checkbox, Input} from "../components/input";
+import { ShowAlertType, useAlert } from '../components/dialog';
+import { Checkbox, Input } from "../components/input";
 import { DateTimeInput, FlatMetaRow, FlatPanel, FlatTabButton } from "@rin/ui";
 import { client } from "../app/runtime";
-import {Cache} from '../utils/cache';
-import {useSiteConfig} from "../hooks/useSiteConfig";
-import {siteName} from "../utils/constants";
+import { Cache } from '../utils/cache';
+import { useSiteConfig } from "../hooks/useSiteConfig";
+import { siteName } from "../utils/constants";
 import mermaid from 'mermaid';
 import { MarkdownEditor } from '../components/markdown_editor';
 import { CherryMarkdownEditor } from '../components/CherryMarkdownEditor';
@@ -117,7 +117,153 @@ async function update({
   }
 }
 
-// 写作页面
+interface MetaInputProps {
+  className?: string;
+  id?: number;
+  title: string;
+  setTitle: (value: string) => void;
+  summary: string;
+  setSummary: (value: string) => void;
+  alias: string;
+  setAlias: (value: string) => void;
+  tags: string;
+  setTags: (value: string) => void;
+  draft: boolean;
+  setDraft: (value: boolean) => void;
+  listed: boolean;
+  setListed: (value: boolean) => void;
+  createdAt: Date | undefined;
+  setCreatedAt: (value: Date | undefined) => void;
+  t: (key: string) => string;
+  publishButton: React.ReactNode;
+}
+
+function MetaInput({
+  className,
+  id,
+  title,
+  setTitle,
+  summary,
+  setSummary,
+  alias,
+  setAlias,
+  tags,
+  setTags,
+  draft,
+  setDraft,
+  listed,
+  setListed,
+  createdAt,
+  setCreatedAt,
+  t,
+  publishButton
+}: MetaInputProps) {
+  return (
+    <FlatPanel className={className}>
+      <div className="flex flex-row gap-4 border-b border-black/5 pb-5 dark:border-white/5 items-start justify-between">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme/70">{t('writing')}</p>
+          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            {id !== undefined ? t("update.title") : t("publish.title")}
+          </p>
+        </div>
+        {publishButton}
+      </div>
+
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <div className="lg:col-span-2">
+          <Input
+            value={title}
+            setValue={setTitle}
+            placeholder={t("title")}
+            variant="flat"
+            className="text-base"
+          />
+        </div>
+        <Input
+          value={summary}
+          setValue={setSummary}
+          placeholder={t("summary")}
+          variant="flat"
+        />
+        <Input
+          value={alias}
+          setValue={setAlias}
+          placeholder={t("alias")}
+          variant="flat"
+        />
+        <Input
+          value={tags}
+          setValue={setTags}
+          placeholder={t("tags")}
+          variant="flat"
+          className="lg:col-span-2"
+        />
+      </div>
+
+      <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
+        <div className="flex-1 min-w-[140px]">
+          <FlatMetaRow
+            className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
+            onClick={() => setDraft(!draft)}
+          >
+            <p>{t('visible.self_only')}</p>
+            <Checkbox
+              id="draft"
+              value={draft}
+              setValue={setDraft}
+              placeholder={t('draft')}
+            />
+          </FlatMetaRow>
+        </div>
+        <div className="flex-1 min-w-[140px]">
+          <FlatMetaRow
+            className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
+            onClick={() => setListed(!listed)}
+          >
+            <p>{t('listed')}</p>
+            <Checkbox
+              id="listed"
+              value={listed}
+              setValue={setListed}
+              placeholder={t('listed')}
+            />
+          </FlatMetaRow>
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <FlatMetaRow className="gap-3 rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3">
+            <p className="mr-2 whitespace-nowrap flex-shrink-0">
+              {t('created_at')}
+            </p>
+            <DateTimeInput value={createdAt} onChange={setCreatedAt} className="flex-shrink-0" />
+          </FlatMetaRow>
+        </div>
+      </div>
+    </FlatPanel>
+  )
+}
+
+interface PublishButtonProps {
+  className?: string;
+  onClick: () => void;
+  disabled: boolean;
+  loading: boolean;
+  t: (key: string) => string;
+}
+
+function PublishButton({ className, onClick, disabled, loading, t }: PublishButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-theme px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-theme-hover active:bg-theme-active disabled:cursor-not-allowed disabled:opacity-60 ${className ?? ""}`}
+      disabled={disabled}
+    >
+      {loading && <Loading type="spin" height={16} width={16} />}
+      <span>{t('publish.title')}</span>
+    </button>
+  );
+}
+
 export function WritingPage({ id }: { id?: number }) {
   const { t } = useTranslation();
   const siteConfig = useSiteConfig();
@@ -134,7 +280,7 @@ export function WritingPage({ id }: { id?: number }) {
   const [editorType, setEditorType] = useState<'visual' | 'markdown'>('visual');
   const { showAlert, AlertUI } = useAlert();
 
-  function publishButton() {
+  function handlePublish() {
     if (publishing) return;
     const tagsplit =
       tags
@@ -193,7 +339,7 @@ export function WritingPage({ id }: { id?: number }) {
           if (data) {
             if (title == "" && data.title) setTitle(data.title);
             if (tags == "" && data.hashtags)
-              setTags(data.hashtags.map(({ name }: {name: string}) => `#${name}`).join(" "));
+              setTags(data.hashtags.map(({ name }: { name: string }) => `#${name}`).join(" "));
             if (alias == "" && (data as any).alias) setAlias((data as any).alias);
             if (content == "") setContent(data.content);
             if (summary == "") setSummary((data as any).summary || "");
@@ -214,7 +360,7 @@ export function WritingPage({ id }: { id?: number }) {
       mermaid.run({
         suppressErrors: true,
         nodes: document.querySelectorAll("pre.mermaid_default")
-      }).then(()=>{
+      }).then(() => {
         mermaid.initialize({
           startOnLoad: false,
           theme: "dark",
@@ -231,108 +377,15 @@ export function WritingPage({ id }: { id?: number }) {
     debouncedUpdate();
   }, [content, debouncedUpdate]);
 
-  function PublishButton({ className }: { className?: string }) {
-    return (
-      <button
-        onClick={publishButton}
-        className={`inline-flex items-center justify-center gap-2 rounded-xl bg-theme px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-theme-hover active:bg-theme-active disabled:cursor-not-allowed disabled:opacity-60 ${className ?? ""}`}
-        disabled={publishing}
-      >
-        {publishing && <Loading type="spin" height={16} width={16} />}
-        <span>{t('publish.title')}</span>
-      </button>
-    );
-  }
-
-  function MetaInput({ className }: { className?: string }) {
-    return (
-        <FlatPanel className={className}>
-          <div className="flex flex-row gap-4 border-b border-black/5 pb-5 dark:border-white/5 items-start justify-between">
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-theme/70">{t('writing')}</p>
-              <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-                {id !== undefined ? t("update.title") : t("publish.title")}
-              </p>
-            </div>
-            <PublishButton className="w-auto" />
-          </div>
-
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="lg:col-span-2">
-              <Input
-                id={id}
-                value={title}
-                setValue={setTitle}
-                placeholder={t("title")}
-                variant="flat"
-                className="text-base"
-              />
-            </div>
-            <Input
-              id={id}
-              value={summary}
-              setValue={setSummary}
-              placeholder={t("summary")}
-              variant="flat"
-            />
-            <Input
-              id={id}
-              value={alias}
-              setValue={setAlias}
-              placeholder={t("alias")}
-              variant="flat"
-            />
-            <Input
-              id={id}
-              value={tags}
-              setValue={setTags}
-              placeholder={t("tags")}
-              variant="flat"
-              className="lg:col-span-2"
-            />
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
-            <div className="flex-1 min-w-[140px]">
-              <FlatMetaRow
-                className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
-                onClick={() => setDraft(!draft)}
-              >
-                <p>{t('visible.self_only')}</p>
-                <Checkbox
-                  id="draft"
-                  value={draft}
-                  setValue={setDraft}
-                  placeholder={t('draft')}
-                />
-              </FlatMetaRow>
-            </div>
-            <div className="flex-1 min-w-[140px]">
-              <FlatMetaRow
-                className="cursor-pointer rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3"
-                onClick={() => setListed(!listed)}
-              >
-                <p>{t('listed')}</p>
-                <Checkbox
-                  id="listed"
-                  value={listed}
-                  setValue={setListed}
-                  placeholder={t('listed')}
-                />
-              </FlatMetaRow>
-            </div>
-            <div className="flex-1 min-w-[200px]">
-              <FlatMetaRow className="gap-3 rounded-none border-0 bg-transparent px-0 py-2 sm:rounded-2xl sm:border sm:bg-secondary sm:px-4 sm:py-3">
-                <p className="mr-2 whitespace-nowrap flex-shrink-0">
-                  {t('created_at')}
-                </p>
-                <DateTimeInput value={createdAt} onChange={setCreatedAt} className="flex-shrink-0" />
-              </FlatMetaRow>
-            </div>
-          </div>
-        </FlatPanel>
-    )
-  }
+  const publishButton = (
+    <PublishButton
+      className="w-auto"
+      onClick={handlePublish}
+      disabled={publishing}
+      loading={publishing}
+      t={t}
+    />
+  );
 
   return (
     <>
@@ -345,7 +398,26 @@ export function WritingPage({ id }: { id?: number }) {
         <meta property="og:url" content={document.URL} />
       </Helmet>
       <div className="mt-2 flex flex-col lg:flex-row gap-4 lg:gap-6 t-primary">
-        <MetaInput className="lg:w-72 lg:shrink-0 lg:sticky lg:top-6" />
+        <MetaInput
+          className="lg:w-72 lg:shrink-0 lg:sticky lg:top-6"
+          id={id}
+          title={title}
+          setTitle={setTitle}
+          summary={summary}
+          setSummary={setSummary}
+          alias={alias}
+          setAlias={setAlias}
+          tags={tags}
+          setTags={setTags}
+          draft={draft}
+          setDraft={setDraft}
+          listed={listed}
+          setListed={setListed}
+          createdAt={createdAt}
+          setCreatedAt={setCreatedAt}
+          t={t}
+          publishButton={publishButton}
+        />
         <div className="min-w-0 flex-1">
           <FlatPanel className="mb-4">
             <div className="flex items-center gap-2 p-3 border-b border-black/10 dark:border-white/10">
